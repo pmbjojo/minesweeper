@@ -37,7 +37,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/sg_button_easy"
-            app:layoout_constraintTop_toTopof="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -63,6 +62,7 @@
             android:id="@+id/sg_text_ranking"
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
             android:text="@string/sg_text_ranking" />
 
     </LinearLayout>
