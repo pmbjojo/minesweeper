@@ -3,6 +3,7 @@ package com.example.minesweeper;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.minesweeper.databinding.ActivityMainBinding;
@@ -12,8 +13,10 @@ public class MainActivity extends AppCompatActivity implements OnCellClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+        Grid grid = new Grid(5, 5, 5);
     }
 
     @Override

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.minesweeper.databinding.ActivityMainBinding;
 import com.example.minesweeper.databinding.ActivityStartGameBinding;
@@ -13,8 +14,9 @@ public class StartGame extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start_game);
         binding = ActivityStartGameBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
     }
 
     @Override
@@ -22,6 +24,17 @@ public class StartGame extends AppCompatActivity {
         super.onResume();
         binding.sgButtonEasy.setOnClickListener(v -> {
             Intent intent = new Intent(StartGame.this,MainActivity.class);
+            intent.putExtra("difficulty",Difficulty.EASY);
+            startActivity(intent);
+        });
+        binding.sgButtonMedium.setOnClickListener(v -> {
+            Intent intent = new Intent(StartGame.this,MainActivity.class);
+            intent.putExtra("difficulty",Difficulty.MEDIUM);
+            startActivity(intent);
+        });
+        binding.sgButtonHard.setOnClickListener(v -> {
+            Intent intent = new Intent(StartGame.this,MainActivity.class);
+            intent.putExtra("difficulty",Difficulty.HARD);
             startActivity(intent);
         });
     }
