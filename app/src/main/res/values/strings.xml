@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">minesweeper</string>
+    <string name="eg_result_waiting">Attente ...</string>
+    <string name="eg_result_lose">Râté, tu as perdu !</string>
+    <string name="eg_result_win">Félicitation tu as gagné</string>
+    <string name="eg_menu">MENU</string>
 </resources>
