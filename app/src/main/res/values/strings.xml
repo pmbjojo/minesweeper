@@ -9,4 +9,8 @@
     <string name="sg_button_medium">Intermédiaire</string>
     <string name="sg_button_expert">Expert</string>
     <string name="sg_text_ranking">Classement :</string>
+    <string name="smile">😀</string>
+    <string name="score_empty">000</string>
+    <string name="time_empty">000</string>
+    <string name="flag">🚩</string>
 </resources>
