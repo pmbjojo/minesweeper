@@ -4,4 +4,9 @@
     <string name="eg_result_lose">Râté, tu as perdu !</string>
     <string name="eg_result_win">Félicitation tu as gagné</string>
     <string name="eg_menu">MENU</string>
+    <string name="sg_text_level">Choix du niveau</string>
+    <string name="sg_button_easy">Débutant</string>
+    <string name="sg_button_medium">Intermédiaire</string>
+    <string name="sg_button_expert">Expert</string>
+    <string name="sg_text_ranking">Classement :</string>
 </resources>
