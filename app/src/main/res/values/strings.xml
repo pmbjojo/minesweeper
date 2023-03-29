@@ -15,4 +15,6 @@
     <string name="flag">🚩</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mine">M</string>
+    <string name="blank" />
 </resources>

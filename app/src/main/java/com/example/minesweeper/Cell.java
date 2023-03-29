@@ -7,70 +7,53 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Cell#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Cell extends Fragment {
-    private boolean isMine;
-    private boolean isFlagged;
-    private boolean isRevealed;
-    private int adjacentMines;
-
+    private Value value;
+    private boolean flag;
+    private boolean reveal;
     public Cell() {
-        isMine = false;
-        isFlagged = false;
-        isRevealed = false;
-        adjacentMines = 0;
+        clear();
     }
-
-    public boolean isMine() {
-        return isMine;
+    public Cell(Value value) {
+        setValue(value);
+        setFlag(false);
+        setReveal(false);
     }
-    public void setMine(boolean mine) {
-        isMine = mine;
+    public Value getValue() {
+        return value;
     }
-    public boolean isFlagged() {
-        return isFlagged;
+    public void setValue(Value value) {
+        this.value = value;
     }
-    public void setFlagged(boolean flagged) {
-        isFlagged = flagged;
+    public boolean getFlag() {
+        return flag;
     }
-    public boolean isRevealed() {
-        return isRevealed;
+    public void setFlag(boolean flag) {
+        this.flag = flag;
     }
-    public void setRevealed(boolean revealed) {
-        isRevealed = revealed;
+    public boolean getReveal() {
+        return reveal;
     }
-    public int getAdjacentMines() {
-        return adjacentMines;
+    public void setReveal(boolean reveal) {
+        this.reveal = reveal;
     }
-    public void setAdjacentMines(int adjacentMines) {
-        this.adjacentMines = adjacentMines;
+    public void clear() {
+        setValue(Value.BLANK);
+        setFlag(false);
+        setReveal(false);
     }
-    public static Cell newInstance(String param1, String param2) {
-        Cell fragment = new Cell();
-        Bundle args = new Bundle();
-        //args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public boolean checkValue(Value value) {
+        return value == getValue();
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            //mParam1 = getArguments().getString(ARG_PARAM1);
-            //mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_cell, container, false);
     }
+
 }

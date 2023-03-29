@@ -1,69 +1,123 @@
 package com.example.minesweeper;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class Grid {
+    private static final int EASY[] = {8,8,16};
+    private static final int MEDIUM[] = {12,12,36};
+    private static final int HARD[] = {16,16,64};
+    Difficulty difficulty;
     private Cell[][] grid;
     private int rows;
-    private int cols;
+    private int columns;
     private int mines;
-    public Grid(int rows, int cols, int mines) {
-        this.rows = rows;
-        this.cols = cols;
-        this.mines = mines;
-        grid = new Cell[rows][cols];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                grid[i][j] = new Cell();
+
+    Grid(Difficulty difficulty) {
+        setDifficulty(difficulty);
+        initGrid();
+        initMines();
+    }
+    public void initGrid() {
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < columns; y++) {
+                grid[x][y] = new Cell();
             }
         }
-        placeMines();
-        calculateAdjacentMines();
     }
-
-    public Cell getCell(int row, int col) {
-        return grid[row][col];
-    }
-
     public int getRows() {
         return rows;
     }
-
-    public int getCols() {
-        return cols;
+    public void setRows(int rows) {
+        this.rows = rows;
     }
-
+    public int getColumns() {
+        return columns;
+    }
+    public void setColumns(int columns) {
+        this.columns = columns;
+    }
     public int getMines() {
         return mines;
     }
-
-    private void placeMines() {
+    public void setMines(int mines) {
+        this.mines = mines;
+    }
+    public void clearGrid() {
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < columns; y++) {
+                grid[x][y].clear();
+            }
+        }
+    }
+    public void initMines() {
         int minesPlaced = 0;
-        while (minesPlaced < mines) {
-            int row = (int) (Math.random() * rows);
-            int col = (int) (Math.random() * cols);
-            if (!grid[row][col].isMine()) {
-                grid[row][col].setMine(true);
+        while (minesPlaced < getMines()) {
+            int x = new Random().nextInt(this.rows);
+            int y = new Random().nextInt(this.columns);
+            if (grid[x][y].checkValue(Value.BLANK)) {
+                grid[x][y].setValue(Value.MINE);
                 minesPlaced++;
+            }
+        }
+
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < columns; y++) {
+                if (!grid[x][y].checkValue(Value.MINE)) {
+                    setCount(x, y);
+                }
             }
         }
     }
 
-    private void calculateAdjacentMines() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (!grid[i][j].isMine()) {
-                    int adjacentMines = 0;
-                    for (int k = i - 1; k <= i + 1; k++) {
-                        for (int l = j - 1; l <= j + 1; l++) {
-                            if (k >= 0 && k < rows && l >= 0 && l < cols) {
-                                if (grid[k][l].isMine()) {
-                                    adjacentMines++;
-                                }
-                            }
-                        }
-                    }
-                    grid[i][j].setAdjacentMines(adjacentMines);
+    public List<Cell> adjacents(int x, int y) {
+        List<Cell> adjacentsCells = new ArrayList<Cell>();
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (grid[i][j] != null) {
+                    adjacentsCells.add(grid[i][j]);
                 }
             }
         }
+        return adjacentsCells;
+    }
+
+    private void setCount(int x, int y) {
+        int countMines = 0;
+        for (Cell cell : adjacents(x, y)) {
+            if (cell.checkValue(Value.MINE)) {
+                countMines++;
+            }
+            if (countMines > 0) {
+                grid[x][y].setValue(Value.values()[countMines]);
+            }
+        }
+    }
+    public Cell[][] getGrid() {
+        return grid;
+    }
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+        switch (difficulty) {
+            case EASY:
+                setRows(EASY[0]);
+                setColumns(EASY[1]);
+                setMines(EASY[2]);
+                break;
+            case MEDIUM:
+                setRows(MEDIUM[0]);
+                setColumns(MEDIUM[1]);
+                setMines(MEDIUM[2]);
+                break;
+            case HARD:
+                setRows(HARD[0]);
+                setColumns(HARD[1]);
+                setMines(HARD[2]);
+                break;
+        }
+    }
+    public Difficulty getDifficulty() {
+        return difficulty;
     }
 }

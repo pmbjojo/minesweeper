@@ -9,6 +9,8 @@ import android.view.View;
 import com.example.minesweeper.databinding.ActivityMainBinding;
 import com.example.minesweeper.databinding.ActivityStartGameBinding;
 
+import java.io.Serializable;
+
 public class StartGame extends AppCompatActivity {
     private ActivityStartGameBinding binding;
     @Override
@@ -22,19 +24,21 @@ public class StartGame extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Intent intent = new Intent(StartGame.this,MainActivity.class);
+        Bundle bundle = new Bundle();
         binding.sgButtonEasy.setOnClickListener(v -> {
-            Intent intent = new Intent(StartGame.this,MainActivity.class);
-            intent.putExtra("difficulty",Difficulty.EASY);
+            bundle.putSerializable("difficulty", Difficulty.EASY);
+            intent.putExtras(bundle);
             startActivity(intent);
         });
         binding.sgButtonMedium.setOnClickListener(v -> {
-            Intent intent = new Intent(StartGame.this,MainActivity.class);
-            intent.putExtra("difficulty",Difficulty.MEDIUM);
+            bundle.putSerializable("difficulty", Difficulty.MEDIUM);
+            intent.putExtras(bundle);
             startActivity(intent);
         });
         binding.sgButtonHard.setOnClickListener(v -> {
-            Intent intent = new Intent(StartGame.this,MainActivity.class);
-            intent.putExtra("difficulty",Difficulty.HARD);
+            bundle.putSerializable("difficulty", Difficulty.HARD);
+            intent.putExtras(bundle);
             startActivity(intent);
         });
     }
