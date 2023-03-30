@@ -34,11 +34,13 @@ public class MainActivity extends AppCompatActivity implements OnCellClickListen
         gameEngine = new GameEngine(difficulty);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, gameEngine.getGrid().getRows());
         binding.grid.setLayoutManager(gridLayoutManager);
-        adapter = new GridRecyclerViewAdapter(this, gameEngine.getGrid().getCellList());
+        adapter = new GridRecyclerViewAdapter(gameEngine.getGrid().getCellList(), this);
         binding.grid.setAdapter(adapter);
     }
     @Override
     public void onCellClick(Cell cell) {
+        Toast.makeText(this, "Cell clicked", Toast.LENGTH_SHORT).show();
+        gameEngine.clear(cell);
         if (gameEngine.getOver()) {
             Intent intent = new Intent(MainActivity.this,EndGame.class);
             intent.putExtra("isGameWon",gameEngine.isGameWon());

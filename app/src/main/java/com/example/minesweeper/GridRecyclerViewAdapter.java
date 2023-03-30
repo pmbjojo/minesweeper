@@ -16,78 +16,35 @@ import com.example.minesweeper.Cell;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GridRecyclerViewAdapter extends RecyclerView.Adapter<GridRecyclerViewAdapter.MineViewHolder> {
-    private LayoutInflater layoutInflater;
-    private OnCellClickListener listener;
+public class GridRecyclerViewAdapter extends RecyclerView.Adapter<CellViewHolder> {
     private List<Cell> cells;
-
-    // data is passed into the constructor
-    GridRecyclerViewAdapter(OnCellClickListener listener, List<Cell> cells) {
+    private OnCellClickListener listener;
+    public GridRecyclerViewAdapter(List<Cell> cells, OnCellClickListener listener) {
         this.cells = cells;
         this.listener = listener;
+    }
+    @Override
+    public CellViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.fragment_cell, parent, false);
+        return new CellViewHolder(view);
+    }
+    @Override
+    public void onBindViewHolder(CellViewHolder viewHolder, int position) {
+        viewHolder.bind(this.cells.get(position));
+    }
+    @Override
+    public int getItemCount() {
+        return this.cells.size();
     }
 
     public void setCells(List<Cell> cells) {
         this.cells = cells;
+        notifyDataSetChanged();
     }
 
-    // inflates the row layout from xml when needed
-    @Override
-    public MineViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.fragment_cell, parent, false);
-        return new MineViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull MineViewHolder holder, int position) {
-        holder.bind(cells.get(position));
-        holder.setIsRecyclable(false);
-    }
-
-    @Override
-    public int getItemCount() {
-        return 0;
-    }
-
-    void setClickListener(OnCellClickListener cellClickListener) {
-        this.listener = cellClickListener;
-    }
-
-    class MineViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
-        public MineViewHolder(@NonNull View itemView) {
-            super(itemView);
-            textView = itemView.findViewById(R.id.tv_cell);
-        }
-        public void bind(final Cell cell) {
-            itemView.setBackgroundColor(Color.GRAY);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onCellClick(cell);
-                }
-            });
-
-            if (cell.getReveal()) {
-                if (cell.checkValue(Value.MINE)) {
-                    textView.setText(R.string.mine);
-                } else if (cell.checkValue(Value.BLANK)) {
-                    textView.setText(R.string.blank);
-                    itemView.setBackgroundColor(Color.WHITE);
-                } else {
-                    textView.setText(String.valueOf(cell.getValue()));
-                    if (cell.checkValue(Value.ONE)) {
-                        textView.setTextColor(Color.BLUE);
-                    } else if (cell.checkValue(Value.TWO)) {
-                        textView.setTextColor(Color.GREEN);
-                    } else {
-                        textView.setTextColor(Color.RED);
-                    }
-                }
-            } else if (cell.getFlag()) {
-                textView.setText(R.string.flag);
-            }
-        }
+    public List<Cell> getCells() {
+        return cells;
     }
 }
-

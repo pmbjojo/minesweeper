@@ -32,18 +32,18 @@ public class EndGame extends AppCompatActivity {
             startActivity(intentEG);
         });
         Intent intent = getIntent();
-        Result = intent.getBooleanExtra(result);
+        boolean result = intent.getBooleanExtra("isGameWon", false);
 
-        if(Result)
+        if(result)
         {
             binding.result.setText(R.string.eg_result_win);
-            MediaPlayerExplose = MediaPlayer.create(this, R.raw.EXPLOSION);
+            MediaPlayerExplose = MediaPlayer.create(this, R.raw.explosion);
             MediaPlayerExplose.start();
         }
         else
         {
             binding.result.setText(R.string.eg_result_lose);
-            MediaPlayerVictory = MediaPlayer.create(this, R.raw.VICTORY);
+            MediaPlayerVictory = MediaPlayer.create(this, R.raw.victory);
             MediaPlayerVictory.start();
         }
 

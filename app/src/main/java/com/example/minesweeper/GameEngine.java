@@ -14,11 +14,11 @@ public class GameEngine {
     private OnCellClickListener onCellClickListener;
     public GameEngine(Difficulty difficulty) {
         setGrid(new Grid(difficulty));
-        //setFlags(grid.getMines());
-        //setReveal(0);
-        //setWon(false);
-        //setOver(false);
-        //setFlag(false);
+        setFlags(grid.getMines());
+        setReveal(0);
+        setWon(false);
+        setOver(false);
+        setFlag(false);
     }
     public void flag(Cell cell) {
         cell.setFlag(!cell.getFlag());
@@ -48,6 +48,7 @@ public class GameEngine {
     public void setOnCellClickListener(OnCellClickListener onCellClickListener) {
         this.onCellClickListener = onCellClickListener;
     }
+
     public OnCellClickListener getOnCellClickListener() {
         return onCellClickListener;
     }
@@ -94,5 +95,8 @@ public class GameEngine {
     }
     public void setGrid(Grid grid) {
         this.grid = grid;
+    }
+    public void clear(Cell cell) {
+        cell.setReveal(true);
     }
 }
