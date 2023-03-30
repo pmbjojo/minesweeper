@@ -16,93 +16,76 @@ import com.example.minesweeper.Cell;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GridRecyclerViewAdapter extends RecyclerView.Adapter<GridRecyclerViewAdapter.MineTileViewHolder> {
-    private ArrayList<Cell> mData;
-    private Cell[][]cells;
+public class GridRecyclerViewAdapter extends RecyclerView.Adapter<GridRecyclerViewAdapter.MineViewHolder> {
     private LayoutInflater layoutInflater;
     private OnCellClickListener listener;
+    private List<Cell> cells;
 
     // data is passed into the constructor
-    GridRecyclerViewAdapter(OnCellClickListener listener, Cell[][] cells) {
+    GridRecyclerViewAdapter(OnCellClickListener listener, List<Cell> cells) {
         this.cells = cells;
         this.listener = listener;
     }
 
-    // inflates the row layout from xml when needed
-    @Override
-    public GridRecyclerViewAdapter onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.fragment_cell, parent, false);
-        return new GridRecyclerViewAdapter(view);
+    public void setCells(List<Cell> cells) {
+        this.cells = cells;
     }
 
-    // binds the data to the TextView in each row
+    // inflates the row layout from xml when needed
     @Override
-    public void onBindViewHolder(MineTileViewHolder holder, int position) {
+    public MineViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = layoutInflater.inflate(R.layout.fragment_cell, parent, false);
+        return new MineViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MineViewHolder holder, int position) {
         holder.bind(cells.get(position));
         holder.setIsRecyclable(false);
     }
 
-    // total number of rows
     @Override
     public int getItemCount() {
-        return cells.size();
+        return 0;
     }
 
-
-
-
-    // convenience method for getting data at click position
-    Cell getItem(int id) {
-        return mData.get(id);
-    }
-
-    // allows clicks events to be caught
     void setClickListener(OnCellClickListener cellClickListener) {
         this.listener = cellClickListener;
     }
 
-    public void setCells(List<Cell> cells) {
-        this.cells = cells;
-        notifyDataSetChanged();
-    }
-
-    class MineTileViewHolder extends RecyclerView.ViewHolder {
-        TextView valueTextView;
-
-        public MineTileViewHolder(@NonNull View itemView) {
+    class MineViewHolder extends RecyclerView.ViewHolder {
+        TextView textView;
+        public MineViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            valueTextView = itemView.findViewById(R.id.item_cell_value);
+            textView = itemView.findViewById(R.id.tv_cell);
         }
-
         public void bind(final Cell cell) {
             itemView.setBackgroundColor(Color.GRAY);
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.cellClick(cell);
+                    listener.onCellClick(cell);
                 }
             });
 
-            if (cell.isRevealed()) {
-                if (cell.getValue() == Value.MINE) {
-                    valueTextView.setText(R.string.mine);
-                } else if (cell.getValue() == Value.BLANK) {
-                    valueTextView.setText(R.string.blank);
+            if (cell.getReveal()) {
+                if (cell.checkValue(Value.MINE)) {
+                    textView.setText(R.string.mine);
+                } else if (cell.checkValue(Value.BLANK)) {
+                    textView.setText(R.string.blank);
                     itemView.setBackgroundColor(Color.WHITE);
                 } else {
-                    valueTextView.setText(String.valueOf(cell.getValue()));
-                    if (cell.getValue() == Value.ONE) {
-                        valueTextView.setTextColor(Color.BLUE);
-                    } else if (cell.getValue() == Value.TWO) {
-                        valueTextView.setTextColor(Color.GREEN);
+                    textView.setText(String.valueOf(cell.getValue()));
+                    if (cell.checkValue(Value.ONE)) {
+                        textView.setTextColor(Color.BLUE);
+                    } else if (cell.checkValue(Value.TWO)) {
+                        textView.setTextColor(Color.GREEN);
                     } else {
-                        valueTextView.setTextColor(Color.RED);
+                        textView.setTextColor(Color.RED);
                     }
                 }
-            } else if (cell.isFlagged()) {
-                valueTextView.setText(R.string.flag);
+            } else if (cell.getFlag()) {
+                textView.setText(R.string.flag);
             }
         }
     }
