@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@color/background"
+    tools:context=".GameActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -26,20 +27,16 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/score_empty"
+            android:text="@string/flags_empty"
             android:textAlignment="center"
             android:textSize="50sp" />
 
-        <TextView
-            android:id="@+id/smiley"
+        <Button
+            android:id="@+id/b_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/smile"
-            android:textAlignment="center"
-            android:textSize="50sp" />
+            android:text="@string/menu" />
 
         <TextView
             android:id="@+id/time"
@@ -60,15 +57,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/mode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
     </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/mode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

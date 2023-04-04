@@ -8,13 +8,11 @@
 
     <TextView
         android:id="@+id/tv_cell"
-        android:background="#3C3C3C"
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:textSize="20sp"
-
         android:textAlignment="center"
         android:text="" />
 </LinearLayout>

@@ -9,24 +9,27 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Minesweeper"
-        >
+        android:theme="@style/Theme.Minesweeper">
         <activity
-            android:name=".StartGame"
-            android:exported="true" >
+            android:name=".ResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MenuActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".EndGame"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="false">
-        </activity>
+
+        <service
+            android:name=".Timer"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

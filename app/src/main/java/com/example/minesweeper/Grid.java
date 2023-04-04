@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 public class Grid {
-    private static final int EASY[] = {8,8,16};
-    private static final int MEDIUM[] = {12,12,36};
-    private static final int HARD[] = {16,16,64};
+    private static final int EASY[] = {8, 8, 1};
+    private static final int MEDIUM[] = {12, 12, 25};
+    private static final int HARD[] = {16, 16, 40};
     Difficulty difficulty;
     private Cell[][] grid;
     private int rows;
@@ -19,6 +19,7 @@ public class Grid {
         initGrid();
         initMines();
     }
+
     public void initGrid() {
         setGrid(new Cell[getRows()][getColumns()]);
         for (int x = 0; x < getRows(); x++) {
@@ -27,24 +28,31 @@ public class Grid {
             }
         }
     }
+
     public int getRows() {
         return rows;
     }
+
     public void setRows(int rows) {
         this.rows = rows;
     }
+
     public int getColumns() {
         return columns;
     }
+
     public void setColumns(int columns) {
         this.columns = columns;
     }
+
     public int getMines() {
         return mines;
     }
+
     public void setMines(int mines) {
         this.mines = mines;
     }
+
     public void clearGrid() {
         for (int x = 0; x < getRows(); x++) {
             for (int y = 0; y < getColumns(); y++) {
@@ -52,6 +60,7 @@ public class Grid {
             }
         }
     }
+
     public void initMines() {
         int minesPlaced = 0;
         while (minesPlaced < getMines()) {
@@ -97,6 +106,7 @@ public class Grid {
             }
         }
     }
+
     public Cell[][] getGrid() {
         return grid;
     }
@@ -125,9 +135,11 @@ public class Grid {
                 break;
         }
     }
+
     public Difficulty getDifficulty() {
         return difficulty;
     }
+
     public List<Cell> getCellList() {
         List<Cell> cellList = new ArrayList<Cell>();
         for (int x = 0; x < getRows(); x++) {
@@ -136,5 +148,25 @@ public class Grid {
             }
         }
         return cellList;
+    }
+
+    public int[] getXY(Cell toFind) {
+        int value[] = {-1, -1};
+        for (int x = 0; x < getRows(); x++) {
+            for (int y = 0; y < getColumns(); y++) {
+                if (getGrid()[x][y] == toFind) {
+                    value = new int[]{x, y};
+                }
+            }
+        }
+        return value;
+    }
+
+    public int getItemNumber() {
+        return getRows() * getColumns();
+    }
+
+    public int getRevealNumber() {
+        return getItemNumber() - getMines();
     }
 }

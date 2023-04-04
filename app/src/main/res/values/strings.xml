@@ -1,20 +1,18 @@
 <resources>
-    <string name="app_name">minesweeper</string>
-    <string name="eg_result_waiting">Attente ...</string>
-    <string name="eg_result_lose">Râté, tu as perdu !</string>
-    <string name="eg_result_win">Félicitation tu as gagné</string>
-    <string name="eg_menu">MENU</string>
-    <string name="sg_text_level">Choix du niveau</string>
-    <string name="sg_button_easy">Débutant</string>
-    <string name="sg_button_medium">Intermédiaire</string>
-    <string name="sg_button_expert">Expert</string>
-    <string name="sg_text_ranking">Classement :</string>
-    <string name="smile">😀</string>
-    <string name="score_empty">000</string>
+    <string name="app_name">Démineur</string>
+    <string name="menu">Menu</string>
+    <string name="level">Niveau</string>
+    <string name="easy">Débutant</string>
+    <string name="medium">Intermédiaire</string>
+    <string name="hard">Expert</string>
+    <string name="ranking">Classement</string>
+
+    <string name="flags_empty">000</string>
     <string name="time_empty">000</string>
+
+    <string name="smile">😀</string>
     <string name="flag">🚩</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="mine">M</string>
+    <string name="mine">💣️</string>
     <string name="blank" />
+    <string name="result">Résultat</string>
 </resources>
