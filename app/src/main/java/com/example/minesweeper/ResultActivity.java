@@ -18,7 +18,6 @@ public class ResultActivity extends AppCompatActivity {
     private ActivityResultBinding binding;
     private MediaPlayer mediaPlayer;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +30,6 @@ public class ResultActivity extends AppCompatActivity {
         Result result = (Result) bundle.getSerializable("result");
         String difficulty = bundle.getString("difficulty", "NOT FOUND");
         int time = intent.getIntExtra("time", 0);
-        MediaPlayer mediaPlayer = new MediaPlayer();
         if (result.equals(Result.WIN)) {
             binding.result.setText("You Win!");
             mediaPlayer = MediaPlayer.create(this, R.raw.victory);
@@ -67,7 +65,7 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         if (mediaPlayer != null) {
-            mediaPlayer.pause();
+            mediaPlayer.stop();
         }
         super.onStop();
     }
@@ -83,7 +81,7 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         if (mediaPlayer != null) {
-            mediaPlayer.pause();
+            mediaPlayer.release();
         }
         super.onDestroy();
     }

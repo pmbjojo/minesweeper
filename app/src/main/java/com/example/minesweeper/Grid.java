@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Grid {
-    private static final int EASY[] = {8, 8, 10};
+    private static final int EASY[] = {8, 8, 1};
     private static final int MEDIUM[] = {12, 12, 25};
     private static final int HARD[] = {16, 16, 40};
     Difficulty difficulty;

@@ -34,6 +34,7 @@ public class GridAdapter extends RecyclerView.Adapter<CellViewHolder> {
         int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, cellSize, view.getResources().getDisplayMetrics());
         float textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, cellSize / 2, view.getResources().getDisplayMetrics());
         view.setPadding(padding, padding, padding, padding);
+        cellTextView.setPadding(padding, padding, padding, padding);
         cellTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(size, size);
         cellTextView.setLayoutParams(params);
