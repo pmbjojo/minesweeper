@@ -1,13 +1,14 @@
 package com.example.minesweeper;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.icu.text.SimpleDateFormat;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.minesweeper.databinding.ActivityResultBinding;
 
@@ -15,6 +16,7 @@ import java.util.Date;
 
 public class ResultActivity extends AppCompatActivity {
     private ActivityResultBinding binding;
+    private MediaPlayer mediaPlayer;
 
 
     @Override
@@ -27,11 +29,17 @@ public class ResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         Result result = (Result) bundle.getSerializable("result");
+        String difficulty = bundle.getString("difficulty", "NOT FOUND");
         int time = intent.getIntExtra("time", 0);
-        if(result.equals(Result.WIN)) {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        if (result.equals(Result.WIN)) {
             binding.result.setText("You Win!");
+            mediaPlayer = MediaPlayer.create(this, R.raw.victory);
+            mediaPlayer.start();
         } else {
             binding.result.setText("You Lose!");
+            mediaPlayer = MediaPlayer.create(this, R.raw.explosion);
+            mediaPlayer.start();
         }
 
 
@@ -45,16 +53,38 @@ public class ResultActivity extends AppCompatActivity {
         values.put(DatabaseHelper.DATE_COLUMN, date);
         values.put(DatabaseHelper.RESULT_COLUMN, result.equals(Result.WIN));
         values.put(DatabaseHelper.TIME_COLUMN, time);
+        values.put(DatabaseHelper.DIFFICULTY_COLUMN, difficulty);
         long newRowId = db.insert(DatabaseHelper.TABLE_NAME, null, values);
         db.close();
 
-        binding.menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ResultActivity.this, MenuActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        binding.menu.setOnClickListener(v -> {
+            Intent intentMenu = new Intent(ResultActivity.this, MenuActivity.class);
+            startActivity(intentMenu);
+            finish();
         });
+    }
+
+    @Override
+    protected void onStop() {
+        if (mediaPlayer != null) {
+            mediaPlayer.pause();
+        }
+        super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        if (mediaPlayer != null) {
+            mediaPlayer.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mediaPlayer != null) {
+            mediaPlayer.pause();
+        }
+        super.onDestroy();
     }
 }

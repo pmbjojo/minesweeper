@@ -1,18 +1,9 @@
 package com.example.minesweeper;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.WindowManager;
-import android.widget.Toast;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-import java.security.Provider;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,56 +63,70 @@ public class GameEngine {
             case FLAG:
                 cell.setType(Type.HIDE);
                 setFlags(getFlags() + 1);
+                break;
             case HIDE:
                 if (getFlags() > 0) {
                     cell.setType(Type.FLAG);
                     setFlags(getFlags() - 1);
                 }
+                break;
         }
-    }
-
-    public void setOnCellClickListener(OnCellClickListener onCellClickListener) {
-        this.onCellClickListener = onCellClickListener;
     }
 
     public OnCellClickListener getOnCellClickListener() {
         return onCellClickListener;
     }
 
-    public void setMode(Mode mode) {
-        this.mode = mode;
+    public void setOnCellClickListener(OnCellClickListener onCellClickListener) {
+        this.onCellClickListener = onCellClickListener;
     }
 
     public Mode getMode() {
         return mode;
     }
 
+    public void setMode(Mode mode) {
+        this.mode = mode;
+    }
+
     public int getFlags() {
         return flags;
+    }
+
+    public void setFlags(int flags) {
+        this.flags = flags;
     }
 
     public int getReveal() {
         return reveal;
     }
 
+    public void setReveal(int reveal) {
+        this.reveal = reveal;
+    }
+
     public Grid getGrid() {
         return grid;
     }
 
-    public void setResult(Result result) {
-        this.result = result;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setGrid(Grid grid) {
+        this.grid = grid;
     }
 
     public Result getResult() {
         return result;
     }
 
+    public void setResult(Result result) {
+        this.result = result;
+    }
+
     public Status getStatus() {
         return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public void setRunning() {
@@ -138,18 +143,6 @@ public class GameEngine {
 
     public void setLose() {
         setResult(Result.LOSE);
-    }
-
-    public void setReveal(int reveal) {
-        this.reveal = reveal;
-    }
-
-    public void setFlags(int flags) {
-        this.flags = flags;
-    }
-
-    public void setGrid(Grid grid) {
-        this.grid = grid;
     }
 
     public void clear(Cell cell) {
@@ -199,7 +192,7 @@ public class GameEngine {
                 //Toast.makeText(getContext(), "To reveal : " + grid.getRevealNumber() + "Revealed" + getReveal(), Toast.LENGTH_SHORT).show();
                 break;
         }
-        if(getGrid().getRevealNumber() == getReveal()) {
+        if (getGrid().getRevealNumber() == getReveal()) {
             setWin();
             setOver();
         }

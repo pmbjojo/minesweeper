@@ -1,23 +1,34 @@
 package com.example.minesweeper;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.minesweeper.databinding.ActivityGameBinding;
 
 public class GameActivity extends AppCompatActivity implements OnCellClickListener {
-    private ActivityGameBinding binding;
-
     GridAdapter adapter;
     GameEngine gameEngine;
+    private ActivityGameBinding binding;
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            long countDown = intent.getLongExtra("countdown", 999);
+            binding.time.setText(String.format("%03d", countDown));
+            if (countDown == 0) {
+                gameEngine.setLose();
+                gameEngine.setOver();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,28 +40,34 @@ public class GameActivity extends AppCompatActivity implements OnCellClickListen
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         Difficulty difficulty = (Difficulty) bundle.getSerializable("difficulty");
+
         Intent serviceIntent = new Intent(this, Timer.class);
         gameEngine = new GameEngine(this, serviceIntent, difficulty);
         binding.mines.setText(String.format("%03d", gameEngine.getFlags()));
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, gameEngine.getGrid().getRows());
         binding.grid.setLayoutManager(gridLayoutManager);
-        adapter = new GridAdapter(gameEngine.getGrid().getCellList(), this);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+        int rows = gameEngine.getGrid().getRows();
+        int columns = gameEngine.getGrid().getColumns();
+        int cellWidth = width / rows - 4;
+        int cellHeight = height / columns - 4;
+        int cellSize = cellWidth < cellHeight ? cellWidth : cellHeight;
+
+        adapter = new GridAdapter(gameEngine.getGrid().getCellList(), this, cellSize);
         binding.grid.setAdapter(adapter);
 
-        binding.mode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gameEngine.switchMode();
-                Toast.makeText(GameActivity.this, "Mode : " + gameEngine.getMode().name(), Toast.LENGTH_SHORT).show();
-            }
+        binding.mode.setOnClickListener(v -> {
+            gameEngine.switchMode();
+            Toast.makeText(GameActivity.this, "Mode : " + gameEngine.getMode().name(), Toast.LENGTH_SHORT).show();
         });
-        binding.bMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GameActivity.this, MenuActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        binding.bMenu.setOnClickListener(v -> {
+            Intent intentMenu = new Intent(GameActivity.this, MenuActivity.class);
+            startActivity(intentMenu);
+            finish();
         });
     }
 
@@ -63,24 +80,13 @@ public class GameActivity extends AppCompatActivity implements OnCellClickListen
             Intent intent = new Intent(GameActivity.this, ResultActivity.class);
             intent.putExtra("result", gameEngine.getResult());
             intent.putExtra("time", Integer.valueOf(binding.time.getText().toString()));
+            intent.putExtra("difficulty", gameEngine.getGrid().getDifficulty().name());
             startActivity(intent);
             finish();
         }
         binding.mines.setText(String.format("%03d", gameEngine.getFlags()));
         adapter.setCells(gameEngine.getGrid().getCellList().indexOf(cell));
     }
-
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            long countDown = intent.getLongExtra("countdown", 999);
-            binding.time.setText(String.format("%03d", countDown));
-            if (countDown == 0) {
-                gameEngine.setLose();
-                gameEngine.setOver();
-            }
-        }
-    };
 
     @Override
     protected void onResume() {

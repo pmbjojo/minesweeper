@@ -9,11 +9,14 @@ public class RankViewHolder extends RecyclerView.ViewHolder {
     public View rankView;
     public TextView tvDate;
     public TextView tvTime;
+    public TextView tvDifficulty;
+
     public RankViewHolder(View rankView) {
         super(rankView);
         this.rankView = rankView;
         this.tvTime = rankView.findViewById(R.id.tv_time);
         this.tvDate = rankView.findViewById(R.id.tv_date);
+        this.tvDifficulty = rankView.findViewById(R.id.tv_difficulty);
     }
 }
 

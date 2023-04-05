@@ -1,8 +1,8 @@
 package com.example.minesweeper;
 
 public class Cell {
-    private Value value;
     public static int size = 30;
+    private Value value;
     private OnCellClickListener listener;
     private Type type;
 

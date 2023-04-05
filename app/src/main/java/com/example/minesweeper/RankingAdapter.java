@@ -29,6 +29,8 @@ public class RankingAdapter extends RecyclerView.Adapter<RankViewHolder> {
         String item = itemList.get(position);
         holder.tvDate.setText(item.split("_")[0]);
         holder.tvTime.setText(item.split("_")[1]);
+        holder.tvDifficulty.setText(item.split("_")[2]);
+
 
     }
 
