@@ -17,7 +17,6 @@ public class Grid {
     Grid(Difficulty difficulty) {
         setDifficulty(difficulty);
         initGrid();
-        initMines();
     }
 
     public void initGrid() {
@@ -61,12 +60,12 @@ public class Grid {
         }
     }
 
-    public void initMines() {
+    public void initMines(Cell cell) {
         int minesPlaced = 0;
         while (minesPlaced < getMines()) {
             int x = new Random().nextInt(getRows());
             int y = new Random().nextInt(getColumns());
-            if (getGrid()[x][y].checkValue(Value.BLANK)) {
+            if (getGrid()[x][y].checkValue(Value.BLANK) && !adjacents(cell).contains(getGrid()[x][y])) {
                 getGrid()[x][y].setValue(Value.MINE);
                 minesPlaced++;
             }
@@ -82,6 +81,23 @@ public class Grid {
     }
 
     public List<Cell> adjacents(int x, int y) {
+        List<Cell> adjacentsCells = new ArrayList<Cell>();
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (i >= 0 && i < getRows() && j >= 0 && j < getColumns()) {
+                    if (grid[i][j] != null) {
+                        adjacentsCells.add(grid[i][j]);
+                    }
+                }
+            }
+        }
+        return adjacentsCells;
+    }
+
+    public List<Cell> adjacents(Cell cell) {
+        int[] xy = getXY(cell);
+        int x = xy [0];
+        int y = xy [1];
         List<Cell> adjacentsCells = new ArrayList<Cell>();
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {

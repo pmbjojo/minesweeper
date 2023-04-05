@@ -17,6 +17,7 @@ import com.example.minesweeper.databinding.ActivityGameBinding;
 public class GameActivity extends AppCompatActivity implements OnCellClickListener {
     GridAdapter adapter;
     GameEngine gameEngine;
+    boolean firstClick = false;
     private ActivityGameBinding binding;
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -73,6 +74,10 @@ public class GameActivity extends AppCompatActivity implements OnCellClickListen
 
     @Override
     public void onCellClick(Cell cell) {
+        if(!firstClick){
+            gameEngine.getGrid().initMines(cell);
+            firstClick = true;
+        }
         //Toast.makeText(this, "Cell clicked", Toast.LENGTH_SHORT).show();
         gameEngine.handleMode(cell);
         if (gameEngine.getStatus().equals(Status.OVER)) {
